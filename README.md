@@ -16,6 +16,7 @@ This repository is a refactoring of a book search application. The refoactoring 
 * Open a new terminal and navigate to main where you will run npm run develop to start the application. 
 
 ## Screenshots
+<img width="1419" alt="book api website photo" src="https://github.com/snalepa11/MERN-refactor/assets/131091044/7c492e74-2679-4cce-9e02-3fce093021c2">
 
 ## Links 
 GitHub Repostiory: https://github.com/snalepa11/MERN-refactor
