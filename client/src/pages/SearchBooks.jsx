@@ -13,7 +13,7 @@ import { useMutation } from '@apollo/client';
 
 
 import Auth from '../utils/auth';
-import { saveBook, searchGoogleBooks } from '../utils/API';
+import { searchGoogleBooks } from '../utils/API';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
 
 const SearchBooks = () => {
@@ -82,17 +82,17 @@ const SearchBooks = () => {
     }
     // TAKE A LOOK HERE?????
     try {
-      const { data } = saveBook({
-        variables: { ...bookToSave }
+      await saveBook({
+        variables: { newBook: { ...bookToSave } },
       });
 
-
+      setSavedBookIds([...savedBookIds, bookToSave.bookId]);
       if (!response.ok) {
         throw new Error('something went wrong!');
       }
 
       // if book successfully saves to user's account, save book id to state
-      setSavedBookIds([...savedBookIds, bookToSave.bookId]);
+    
     } catch (err) {
       console.error(err);
     }
