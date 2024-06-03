@@ -20,10 +20,10 @@ const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('id_token');
   // return the headers to the context so httpLink can read them
   return {
-      headers: {
-          ...headers,
-          authorization: token ? `Bearer ${token}` : '',
-      },
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
   };
 });
 
@@ -38,7 +38,7 @@ function App() {
     <ApolloProvider client={client}>
       <Navbar />
       <Outlet />
-      </ApolloProvider>
+    </ApolloProvider>
   );
 }
 
