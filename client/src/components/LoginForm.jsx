@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 
+
 // import { loginUser } from '../utils/API';
 import Auth from '../utils/auth';
 import { useMutation } from '@apollo/client';
@@ -11,47 +12,58 @@ const LoginForm = () => {
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
+  const [loginUser] = useMutation(LOGIN_USER);
 
- 
-  // useEffect(() => {
-  //   if (error) {
-  //     setShowAlert(true);
-  //   } else {
-  //     setShowAlert(false);
+  // const handleFormSubmit = async (event) => {
+  //   event.preventDefault();
+  //   try {
+  //     const mutationResponse = await login({
+  //       variables: { email: userFormData.email, password: userFormData.password },
+  //     });
+  //     const token = mutationResponse.data.login.token;
+  //     Auth.login(token);
+  //   } catch (e) {
+  //     console.log('error', e);
   //   }
-  // }, [error]);
-  // const handleInputChange = (event) => {
-  //   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
-  //   const [loginUser, { error }] = useMutation(LOGIN_USER);
-
   // };
 
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+
+    // check if form has everything (as per react-bootstrap docs)
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    try {
+      const { data } = await loginUser({
+        variables: { ...userFormData },
+      });
+      Auth.login(data.login.token);
+
+    } catch (err) {
+      console.error(err);
+      setShowAlert(true);
+    }
+
+    setUserFormData({
+      username: "",
+      email: "",
+      password: "",
+    });
+  };
+  
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUserFormData({ ...userFormData, [name]: value });
   };
-  
-    const handleFormSubmit = async (event) => {
-      event.preventDefault();
-      try {
-        const mutationResponse = await login({
-          variables: { email: userFormData.email, password: userFormData.password },
-        });
-        const token = mutationResponse.data.login.token;
-        Auth.login(token);
-      } catch (e) {
-        console.log('error', e);
-      }
-    };
+
 
    
    
-  //   setUserFormData({
-  //     username: '',
-  //     email: '',
-  //     password: '',
-  //   });
-  // };
+ 
 
   return (
     <>
